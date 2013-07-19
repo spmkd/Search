@@ -30,6 +30,10 @@ public class NavigateService implements ICreateNavigation {
             return new NavigateResult(request.getLocation(), result);
         }
         
+        // If it is not initial request, we continue from here
+        //
+        // We first populate data which is inserted in ServletContext at initialization
+        
         data = (List<Data>) servletContext.getAttribute("Data");
         
         // all subsequent requests
@@ -38,9 +42,9 @@ public class NavigateService implements ICreateNavigation {
         //check the whole data for the navigated parametars
         for(int i=0 ; i < data.size(); i++){
             
-            Data toTest = data.get(i);
+            Data singleData = data.get(i);
             
-            String[] taken = toTest.getData();
+            String[] taken = singleData.getData();
             int numOfParts = taken.length;
             
             int testingPart = navigateParametars.getCount();
@@ -49,9 +53,9 @@ public class NavigateService implements ICreateNavigation {
                 continue;
             }
             
-            String toBeAdded = toTest.getData()[navigateParametars.getCount()];
+            String toBeAdded = singleData.getData()[navigateParametars.getCount()];
             
-            if(navigateParametars.contains(toTest.getData())){
+            if(navigateParametars.contains(singleData.getData())){
                 
                 boolean entryExists = false;
                 //check for duplicates
